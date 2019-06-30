@@ -1,0 +1,16 @@
+{
+    "autoload": {
+        "psr-4": {
+         	"Api\\":"api/",
+         	"Db\\":"api/DB",
+         	"Model\\":"api/Models"
+        },        
+        "classmap": [            
+            "./api/about/about.php"            
+        ]        
+    },	
+    "require": {
+        "monolog/monolog": "1.0.*",
+        "nikic/fast-route": "^1.3"
+    }
+}
