@@ -1,5 +1,4 @@
 <?php
-echo 'test';
 class Myapp {
 
   function index($vars)
