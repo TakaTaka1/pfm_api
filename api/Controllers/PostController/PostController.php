@@ -2,7 +2,8 @@
 // namespace Api\Controllers\PostController;
 use Api\Controllers\PostController\PostTrait;
 use Api\Controllers\PostController\PostInterface;
-// require_once __DIR__ . '/../../../vendor/autoload.php';
+use Api\Exception\ApiException;
+use Api\Consts\Api;
 
 class Post implements PostInterface
 {
@@ -21,37 +22,24 @@ class Post implements PostInterface
 	}
 	public function edit ($request_param) {
 		// validation
-
-		// 1.save params to db
-		// 2.return api response 
+		if(!$validation){
+			throw new ApiException('Validation',ApiException::INVALID_VALUE);
+			return false;
+		}			
+		// save params to db		
 		try {
 			// start transaction
 			// commit
-
-		} catch(\Exception $e) {
+			throw new ApiException('Save Error', ApiException::INVALID_RESPONSE)
+		} catch(ApiException $e) {
 			// rollback
 			// return error response
 		}
 
-		// return success code and response
+		// return api response 
 		echo 'edit';
 
 	}	
-
-	// public function post () {
-		// when create or update post
-		//echo 'editss';
-		// $this->price = $_POST['price'];
-		// $this->category_id = $_POST['category_id'];
-		// $this->date = $_POST['date'];
-
-		// exception
-
-		// save params to db
-
-		// return response with status code
-	// }
-
 
 	public function put () {
 		
@@ -61,6 +49,3 @@ class Post implements PostInterface
 		// when delete post
 	}
 }
-
-// POST db保存する
-// response
