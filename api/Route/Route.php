@@ -13,7 +13,6 @@ class Route
 			$this->_method[] = $method;
 		}
 	}
-
 	public function submit(){
 		$uri_get_param = isset($_GET['uri']) ? '/' . $_GET['uri'] : '/';		
 		foreach ($this->_uri as $key => $value){					

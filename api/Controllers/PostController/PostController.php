@@ -19,9 +19,21 @@ class Post implements PostInterface
 	public function index () {		
 		echo 'ssssuccess';
 	}
-	public function edit () {
-		// when page is loaded
-		// $this->test(); this is from trait
+	public function edit ($request_param) {
+		// validation
+
+		// 1.save params to db
+		// 2.return api response 
+		try {
+			// start transaction
+			// commit
+
+		} catch(\Exception $e) {
+			// rollback
+			// return error response
+		}
+
+		// return success code and response
 		echo 'edit';
 
 	}	
