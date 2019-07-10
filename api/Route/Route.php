@@ -33,7 +33,7 @@ class Route
 	}
 	private function _include_controller($target_controller=null) {		
 		if(!empty($target_controller)) {
-			$get_target_controller = [];
+			$get_target_controller = []; // 
 			$get_target_controller = explode('/',$target_controller);
 			require_once __DIR__ . '/../Controllers/'.$get_target_controller[0].'/'. $get_target_controller[0].'.php';
 			return $get_target_controller[1];
