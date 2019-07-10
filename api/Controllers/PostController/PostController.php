@@ -4,6 +4,8 @@ use Api\Controllers\PostController\PostTrait;
 use Api\Controllers\PostController\PostInterface;
 use Api\Exception\ApiException;
 use Api\Consts\Api;
+use Api\Validator\ValidatorClass;
+use Api\DB\DataBaseClass;
 
 class Post implements PostInterface
 {
@@ -11,10 +13,10 @@ class Post implements PostInterface
 	protected $price;
 	protected $category_id;
 	protected $date;
-
-	public function __constructor() {
+	protected $db_adapter;
+	public function __constructor(DataBaseClass $db) {
 		// TODO set instance DB class
-
+		$this->db_adapter = $db;
 	}
 
 	public function index () {		
@@ -22,9 +24,20 @@ class Post implements PostInterface
 	}
 	public function edit ($request_param) {
 		// validation
-		if(!$validation){
-			throw new ApiException('Validation',ApiException::INVALID_VALUE);
-			return false;
+		$input_control=[
+			"name"=>[
+			      "name"=>"氏名",
+			      "rule"=>"empty|max-50"
+			     ],
+			"price"=>[
+			      "name"=>"価格",
+			      "rule"=>"empty|is_num"
+			     ],
+		];
+		$result = ValidatorClass::validation($input_control, $request_param);
+		if(count($result)>0){			
+			echo "<script>alert($result);</script>";
+			return;
 		}			
 		// save params to db		
 		try {
@@ -40,10 +53,6 @@ class Post implements PostInterface
 		echo 'edit';
 
 	}	
-
-	public function put () {
-		
-	}
 
 	public function delete () {
 		// when delete post
