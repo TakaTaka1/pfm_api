@@ -7,7 +7,6 @@ class Route
 
 	public function add($uri, $class, $method=null){
 		$this->_uri[] = '/' . trim($uri,'/');
-		print_r($this->_uri);
 		if($class != null) {
 			$this->_class[] = $class;
 			$this->_method[] = $method;
@@ -32,7 +31,7 @@ class Route
 			}
 		}		
 	}
-	private function _include_controller($target_controller=null) {		
+	private function _include_controller($target_controller=null) {	
 		if(!empty($target_controller)) {
 			$get_target_controller = [];
 			$get_target_controller = explode('/',$target_controller);

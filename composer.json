@@ -2,7 +2,7 @@
     "autoload": {
         "psr-4": {
          	"Api\\":"api/",
-         	"Db\\":"api/DB",
+         	"DB\\":"api/DB",
          	"Model\\":"api/Models"
         },        
         "classmap": [            

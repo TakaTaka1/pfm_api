@@ -21,7 +21,7 @@ class ComposerStaticInit508df735944bff636d1238a41b00e62d
         ),
         'D' => 
         array (
-            'Db\\' => 3,
+            'DB\\' => 3,
         ),
         'A' => 
         array (
@@ -38,7 +38,7 @@ class ComposerStaticInit508df735944bff636d1238a41b00e62d
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
-        'Db\\' => 
+        'DB\\' => 
         array (
             0 => __DIR__ . '/../..' . '/api/DB',
         ),
