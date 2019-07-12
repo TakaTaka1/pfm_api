@@ -10,12 +10,18 @@ class LoginClass {
 	protected $validate_rules =[];
 	protected $db_adapter;
 
-	function __constructor() {
-		$this->db_adapter = new DataBaseClass(
-			Env::DB_NAME,
+	function __construct() {
+		// $this->db_adapter = new DataBaseClass(
+		// 	Env::DB_NAME,
+		// 	Env::DB_USER_NAME,
+		// 	Env::DB_PASSWORD,
+		// 	Env::DB_OPTIONS,
+		// );
+		$this->db_adapter = DataBaseClass::createPdoConnection(
+			Env::DSN,
 			Env::DB_USER_NAME,
 			Env::DB_PASSWORD,
-			Env::DB_OPTIONS,
+			// Env::DB_OPTIONS,
 		);
 	}
 

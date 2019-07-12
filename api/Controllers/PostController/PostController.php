@@ -6,6 +6,7 @@ use Api\Exception\ApiException;
 use Api\Consts\Api;
 use Api\Validator\ValidatorClass;
 use Api\DB\DataBaseClass;
+use Api\Consts\Env;
 
 class Post implements PostInterface
 {
@@ -14,15 +15,25 @@ class Post implements PostInterface
 	protected $category_id;
 	protected $date;
 	protected $db_adapter;
-	public function __constructor(DataBaseClass $db) {
+	public function __construct() {
 		// TODO set instance DB class
-		$this->db_adapter = $db;
+		$this->db_adapter = DataBaseClass::createPdoConnection(
+			Env::DSN,
+			Env::DB_USER_NAME,
+			Env::DB_PASSWORD,
+			// Env::DB_OPTIONS,
+		);
 	}
 
 	public function index () {		
-		echo 'ssssuccess';
+		$test_sql = "INSERT INTO users (username, created_at) VALUES (:username, now())";
+		$db_controller = $this->db_adapter->prepare($test_sql);
+		$name = 'test_user';
+		$db_controller->bindParam(':username',$name);
+		$db_controller->execute();
+		echo 'test';
 	}
-	public function edit ($request_param) {
+	public function edit ($request_param=null) {
 		// validation
 		$input_control=[
 			"name"=>[
@@ -43,7 +54,7 @@ class Post implements PostInterface
 		try {
 			// start transaction
 			// commit
-			throw new ApiException('Save Error', ApiException::INVALID_RESPONSE)
+			throw new ApiException('Save Error', ApiException::INVALID_RESPONSE);
 		} catch(ApiException $e) {
 			// rollback
 			// return error response

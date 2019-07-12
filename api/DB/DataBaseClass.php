@@ -4,12 +4,13 @@ namespace Api\DB;
 
 class DataBaseClass 
 {
+	private static $db_instance;
 	protected $dsn;
 	protected $username;
 	protected $password;
 	protected $options;
-	function __constructor($dsn,$username,$password,$options){
-// $dsn,$username, $password, $options=null
+
+	private function __construct($dsn,$username,$password,$options=null){
 		$this->dsn = $dsn;
 		$this->username = $username;
 		$this->password = $password;
@@ -20,9 +21,12 @@ class DataBaseClass
 
 	}
 
-	public function createPdoConnection(){
+	public function createPdoConnection($dsn,$username,$password,$options=null){
 		try {
-			return new PDO($this->dsn,$this->$username, $this->password, $this->options);
+			if(is_null(self::$db_instance)){
+				self::$db_instance =  new \PDO($dsn,$username, $password, $options);
+			}
+			return self::$db_instance;
 		}catch(PDOException $e){
 			exit('failed to connect db'.$e->getMessage());
 		}

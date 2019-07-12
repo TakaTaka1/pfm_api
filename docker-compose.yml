@@ -1,0 +1,40 @@
+version: '2'
+services:
+  db:
+    build: mysql
+    volumes:
+      - pfm-db:/var/lib/mysql
+      - ./mysql.conf:/etc/mysql/conf.d
+    environment:
+      #$ mysql -uroot -proot -hdb my_app
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_app
+      MYSQL_USER: root
+      #MYSQL_PASSWORD: root
+  
+  web:
+    build: web-docker # directory name
+    volumes:
+      - ./:/var/www/html:cached
+      - ./web/conf:/etc/apache2/sites-enabled:cached
+    ports:
+      - "1910:80"
+    depends_on:
+      - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+    links:
+      - db
+    ports:
+      - 8200:80
+    volumes:
+      - "./phpmyadmin/sessions:/sessions"   
+
+volumes:
+  pfm-db:
+
