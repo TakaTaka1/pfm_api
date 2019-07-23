@@ -38,7 +38,7 @@ class LoginClass {
 		];		
 		$this->login_params['email'] = $_POST['email'];
 		$this->login_params['password'] = $_POST['password'];
-		$result_validation = ValidatorClass::validation($this->login_params);
+		// $result_validation = ValidatorClass::validation($this->login_params);
 		if(count($result_validation) > 0){
 			// echo $result_validation
 			// return login view

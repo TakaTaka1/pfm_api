@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Consts;
+namespace Api\Consts;
 
-class Api {
+class ApiResponse {
 	// Code for response
 	const SUCCESS_CREATE = 'c-200';
 	const SUCCESS_EDIT = 'e-200';
-	const DELETE_POST = 'd-200';
+	const SUCCESS_DELETE_POST = 'd-200';
+	const ERROR_INVALID_PARAMS = 400;
 
 	static function api_response($response_code,$json_params){
+		self::set_response_code($response_code);
 		return json_encode(array_merge([
-            'status' => self::return_success_code($response_code),  // true or false
+            'status' => self::is_success_code($response_code),  // true or false
             'code'    => $response_code,
             'message' => self::send_message($response_code),
         ],$json_params),true);
@@ -19,17 +21,28 @@ class Api {
 		return [
 			self::SUCCESS_CREATE => 'Success Create',
 			self::SUCCESS_EDIT => 'Success Edit',
-			self::DELETE_POST => 'Success Delete',
-		][$response];
+			self::SUCCESS_DELETE_POST => 'Success Delete',
+			self::ERROR_INVALID_PARAMS => 'Invalid Params',
+		][$response_code];
 	}
-	static function return_success_code($response_code){
+	static function is_success_code($response_code){
 		return in_array($response_code,[
             self::SUCCESS_CREATE,
             self::SUCCESS_EDIT,
 		]);
 	}
+	static function set_response_code($response_code){
+		// TODO more status
+		$status = [
+        	200 => '200 OK',
+        	400 => '400 Bad Request',
+		];
+		// Return response status
+		header("Status: {$status[$response_code]}");		
+	}
+	// test
 	static function check_response_code($url, $method){
-		$options = $this->_curl_options();
+		$options = self::_curl_options();
 		$curl_handler = curl_init($url);
 		curl_setopt_array($curl_handler,$options);
 		$output = curl_exec($curl_handler);
@@ -37,6 +50,7 @@ class Api {
 		curl_close($curl_handler);
 		return $httpcode;
 	}
+	// test
 	private function _curl_options() {
         $options = [
             // CURLOPT_VERBOSE => true,

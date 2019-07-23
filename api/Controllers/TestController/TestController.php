@@ -2,8 +2,7 @@
 
 class Test
 {
-
-	public function test(){
-		print_r('test dfasdfsadfayo');
+	public function test_method(){
+		echo 'aiueo';
 	}
 }

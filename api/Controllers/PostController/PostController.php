@@ -3,9 +3,8 @@
 use Api\Controllers\PostController\PostTrait;
 use Api\Controllers\PostController\PostInterface;
 use Api\Exception\ApiException;
-use Api\Consts\Api;
-use Api\Validator\ValidatorClass;
 use Api\DB\DataBaseClass;
+use Api\Consts\ApiResponse;
 use Api\Consts\Env;
 
 class Post implements PostInterface
@@ -16,7 +15,6 @@ class Post implements PostInterface
 	protected $date;
 	protected $db_adapter;
 	public function __construct() {
-		// TODO set instance DB class
 		$this->db_adapter = DataBaseClass::createPdoConnection(
 			Env::DSN,
 			Env::DB_USER_NAME,
@@ -25,44 +23,22 @@ class Post implements PostInterface
 		);
 	}
 
-	public function index () {		
-		$test_sql = "INSERT INTO users (username, created_at) VALUES (:username, now())";
-		$db_controller = $this->db_adapter->prepare($test_sql);
-		$name = 'test_user';
-		$db_controller->bindParam(':username',$name);
+	public function index () {				
+		$query = "SELECT * FROM users";
+		$db_controller = $this->db_adapter->prepare($query);
 		$db_controller->execute();
-		echo 'test';
+		echo json_encode($db_controller->fetchall());
 	}
-	public function edit ($request_param=null) {
-		// validation
-		$input_control=[
-			"name"=>[
-			      "name"=>"氏名",
-			      "rule"=>"empty|max-50"
-			     ],
-			"price"=>[
-			      "name"=>"価格",
-			      "rule"=>"empty|is_num"
-			     ],
-		];
-		$result = ValidatorClass::validation($input_control, $request_param);
-		if(count($result)>0){			
-			echo "<script>alert($result);</script>";
-			return;
-		}			
-		// save params to db		
+	public function edit () {		
 		try {
 			// start transaction
-			// commit
-			throw new ApiException('Save Error', ApiException::INVALID_RESPONSE);
-		} catch(ApiException $e) {
+			$this->save_post($_POST['price'],$_POST['category_id'],$_POST['date']);			
+		} catch(\Exception $e) {
 			// rollback
+			echo ApiResponse::api_response(ApiResponse::ERROR_INVALID_PARAMS,[]);
 			// return error response
-		}
-
-		// return api response 
-		echo 'edit';
-
+		}	
+		return;
 	}	
 
 	public function delete () {

@@ -15,7 +15,8 @@ COPY php.ini /usr/local/etc/php/
 RUN curl -f https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # install mysql client
-RUN apt-get install -y mysql-client
+#RUN apt-get install -y mysql-client
+RUN apt-get install -y mariadb-client
 
 # mysqlのクライアントのデフォルト文字コードをutf8に変更
 RUN { \

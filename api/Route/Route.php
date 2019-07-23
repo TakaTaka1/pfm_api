@@ -6,8 +6,7 @@ class Route
 	private $_method = [];
 
 	public function add($uri, $class, $method=null){
-		$this->_uri[] = '/' . trim($uri,'/');
-		print_r($this->_uri);
+		$this->_uri[] = '/' . trim($uri,'/');		
 		if($class != null) {
 			$this->_class[] = $class;
 			$this->_method[] = $method;

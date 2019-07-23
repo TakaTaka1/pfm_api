@@ -1,6 +1,5 @@
 <?php
 namespace Api\DB;
-// TODO define PDO class
 
 class DataBaseClass 
 {
